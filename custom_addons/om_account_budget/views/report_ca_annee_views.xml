@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard Form View -->
+    <record id="view_report_ca_annee_wizard_form" model="ir.ui.view">
+        <field name="name">report.ca.annee.wizard.form</field>
+        <field name="model">report.ca.annee</field>
+        <field name="arch" type="xml">
+            <form string="Chiffre d’Affaires Annuel">
+                <group>
+                    <field name="start_year"/>
+                    <field name="end_year"/>
+                </group>
+                <footer>
+                    <button name="generate_report" string="Générer Rapport" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_report_ca_annee_wizard" model="ir.actions.act_window">
+        <field name="name">Chiffre d’Affaires Annuel</field>
+        <field name="res_model">report.ca.annee</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_report_ca_annee" name="Chiffre d’Affaires Annuel"
+              parent="menu_report_depense_annuelle_root"
+              action="action_report_ca_annee_wizard" sequence="20"/>
+
+    <!-- Tree View -->
+    <record id="view_report_ca_annee_result_tree" model="ir.ui.view">
+        <field name="name">report.ca.annee.result.tree</field>
+        <field name="model">report.ca.annee.result</field>
+        <field name="arch" type="xml">
+            <tree string="Résultat Chiffre d’Affaires Annuel">
+                <field name="annee"/>
+                <field name="montant_real"/>
+                <field name="montant_prev"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- Graph View -->
+    <record id="view_report_ca_annee_result_graph" model="ir.ui.view">
+        <field name="name">report.ca.annee.result.graph</field>
+        <field name="model">report.ca.annee.result</field>
+        <field name="arch" type="xml">
+            <graph string="Chiffre d’Affaires Annuel" type="bar">
+                <field name="annee" type="row"/>
+                <field name="montant_real" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+</odoo>

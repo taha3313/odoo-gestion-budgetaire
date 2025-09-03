@@ -1,0 +1,51 @@
+<odoo>
+    <!-- Graph view for Prévision -->
+    <record id="view_bar_chart_budget_line_graph" model="ir.ui.view">
+        <field name="name">bar.chart.budget.line.graph</field>
+        <field name="model">bar.chart.budget.line</field>
+        <field name="arch" type="xml">
+            <graph string="Évolution des réalisations budgétaires" type="bar" stacked="False">
+                <field name="annee" type="row"/>
+                <field name="type_depense" type="col"/>
+                <field name="montant" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_bar_chart_budget_line" model="ir.actions.act_window">
+        <field name="name">Réalisations Budgétaires</field>
+        <field name="res_model">bar.chart.budget.line</field>
+        <field name="view_mode">graph</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_bar_chart_budget_line"
+              name="Evolution Budgétaire"
+              parent="menu_report_depense_annuelle_root"
+              action="action_bar_chart_budget_line"/>
+
+    <!-- Graph view for Réalisé -->
+    <record id="view_bar_chart_budget_realise_graph" model="ir.ui.view">
+        <field name="name">bar.chart.budget.realise.graph</field>
+        <field name="model">bar.chart.budget.realise</field>
+        <field name="arch" type="xml">
+            <graph string="Évolution des montants réalisés" type="bar" stacked="False">
+                <field name="annee" type="row"/>
+                <field name="type_depense" type="col"/>
+                <field name="montant_realise" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_bar_chart_budget_realise" model="ir.actions.act_window">
+        <field name="name">Montants Réalisés</field>
+        <field name="res_model">bar.chart.budget.realise</field>
+        <field name="view_mode">graph</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_bar_chart_budget_realise"
+              name="Evolution Réalisée"
+              parent="menu_report_depense_annuelle_root"
+              action="action_bar_chart_budget_realise"/>
+</odoo>

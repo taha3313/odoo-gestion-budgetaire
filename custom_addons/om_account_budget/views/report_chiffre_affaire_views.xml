@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_chiffre_affaire" model="ir.actions.act_window">
+        <field name="name">Rapport Chiffre d'affaire</field>
+        <field name="res_model">report.chiffre.affaire</field>
+        <field name="view_mode">pivot,tree</field>
+        <!-- Filter results to only show lines for the current user -->
+        <field name="domain">[('user_id', '=', uid)]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_report_chiffre_affaire" name="Rapport Chiffre d'affaire"
+              parent="menu_report_depense_annuelle_root"
+              action="action_report_chiffre_affaire" sequence="10"/>
+
+    <!-- Result Tree View -->
+    <record id="view_report_chiffre_affaire_tree" model="ir.ui.view">
+        <field name="name">report.chiffre.affaire.tree</field>
+        <field name="model">report.chiffre.affaire</field>
+        <field name="arch" type="xml">
+            <tree string="Résultats Dépenses Annuelles">
+                <field name="position_budgetaire"/>
+                <field name="montant_facture"/>
+                <field name="montant_prev"/>
+                <field name="montant_encaisse"/>
+                <field name="montant_realise_pred"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Result Pivot View -->
+    <record id="view_report_chiffre_affaire_pivot" model="ir.ui.view">
+        <field name="name">report.chiffre.affaire.pivot</field>
+        <field name="model">report.chiffre.affaire</field>
+        <field name="arch" type="xml">
+            <pivot string="Rapport Dépenses Annuelles" js_class="web_pivot_hide_total">
+                <field name="position_budgetaire" type="row"/>
+                <field name="montant_facture" type="measure"/>
+                <field name="montant_prev" type="measure"/>
+                <field name="montant_encaisse" type="measure"/>
+                <field name="montant_realise_pred" type="measure"/>
+                <field name="pourcentage_evolution" type="measure"/>
+                <field name="pourcentage_encaisse_prev" type="measure"/>
+                <field name="pourcentage_encaisse_facture" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

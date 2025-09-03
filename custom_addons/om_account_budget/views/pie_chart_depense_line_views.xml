@@ -1,0 +1,51 @@
+<odoo>
+    <record id="view_pie_chart_depense_line_graph" model="ir.ui.view">
+        <field name="name">pie.chart.depense.line.graph</field>
+        <field name="model">pie.chart.depense.line</field>
+        <field name="arch" type="xml">
+            <graph string="Répartition Dépenses par Type" type="pie">
+                <field name="type_depense" type="row"/>
+                <field name="percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_pie_chart_depense_line_tree" model="ir.ui.view">
+        <field name="name">pie.chart.depense.line.tree</field>
+        <field name="model">pie.chart.depense.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="annee"/>
+                <field name="type_depense"/>
+                <field name="percentage"/>
+                <field name="montant"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pie_chart_depense_line" model="ir.actions.act_window">
+        <field name="name">Camembert Dépenses</field>
+        <field name="res_model">pie.chart.depense.line</field>
+        <field name="view_mode">graph,tree</field>
+        <!-- Restrict to current user's data -->
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_pie_chart_depense_line"
+              name="Camembert Dépenses"
+              parent="menu_report_depense_annuelle_root"
+              action="action_pie_chart_depense_line"/>
+
+    <record id="ir_cron_generate_pie_chart_depense" model="ir.cron">
+        <field name="name">Générer Camembert Dépenses</field>
+        <field name="model_id" ref="model_pie_chart_depense_line"/>
+        <field name="state">code</field>
+        <!-- Cron generates for current user only -->
+        <field name="code">model.generate_lines_for_year()</field>
+        <field name="interval_type">days</field>
+        <field name="interval_number">1</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

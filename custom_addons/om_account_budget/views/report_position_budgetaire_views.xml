@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard Form View -->
+    <record id="view_report_position_budgetaire_wizard_form" model="ir.ui.view">
+        <field name="name">report.position.budgetaire.wizard.form</field>
+        <field name="model">report.position.budgetaire</field>
+        <field name="arch" type="xml">
+            <form string="Rapport Position Budgétaire">
+                <group>
+                    <field name="start_year"/>
+                    <field name="end_year"/>
+                </group>
+                <group string="Positions Budgétaires">
+                    <field name="select_all"/>
+                    <field name="positions_budgetaires_ids" widget="many2many_checkboxes" />
+                </group>
+                <footer>
+                    <button name="generate_report" string="Générer Rapport" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_report_position_budgetaire_wizard" model="ir.actions.act_window">
+        <field name="name">Positions Budgétaires</field>
+        <field name="res_model">report.position.budgetaire</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_report_position_budgetaire" name="Rapport Postions Budgétaires" parent="menu_report_depense_annuelle_root" action="action_report_position_budgetaire_wizard" sequence="10"/>
+
+    <!-- Result Tree View -->
+    <record id="view_report_position_budgetaire_result_tree" model="ir.ui.view">
+        <field name="name">report.position.budgetaire.result.tree</field>
+        <field name="model">report.position.budgetaire.result</field>
+        <field name="arch" type="xml">
+            <tree string="Résultats Dépenses Annuelles">
+                <field name="annee"/>
+                <field name="position_budgetaire"/>
+                <field name="montant_real"/>
+                <field name="pourcentage_realisation"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Result Pivot View -->
+    <record id="view_report_position_budgetaire_pivot" model="ir.ui.view">
+        <field name="name">report.position.budgetaire.result.pivot</field>
+        <field name="model">report.position.budgetaire.result</field>
+        <field name="arch" type="xml">
+            <pivot string="Rapport Dépenses Annuelles" js_class="web_pivot_hide_total"  >
+                <field name="annee" type="row" />
+                <field name="position_budgetaire" type="col" />
+                <field name="montant_real" type="measure"/>
+                <field name="pourcentage_realisation" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

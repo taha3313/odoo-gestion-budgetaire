@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="report_depense_annuelle_pdf_template">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <div class="page">
+          <h2 style="text-align:center;">Rapport des Dépenses Annuelles</h2>
+          <p><strong>Années:</strong> <t t-esc="doc.start_year"/> - <t t-esc="doc.end_year"/></p>
+          <div t-raw="doc.table_html"/>
+        </div>
+      </t>
+    </t>
+  </template>
+</odoo>

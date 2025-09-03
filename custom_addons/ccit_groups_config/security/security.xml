@@ -1,0 +1,273 @@
+<odoo>
+    <data>
+
+         <record model="ir.module.category" id="module_category_accounting_accounting">
+            <field name="name">Comptabilité</field>
+            <field name="sequence">4</field>
+        </record>
+
+        <record id="group_category" model="ir.module.category">
+            <field name="name">Ecopark</field>
+            <field name="description">Profils Ecopark</field>
+        </record>
+
+        <record id="group_demandeur" model="res.groups">
+            <field name="name">Demandeur</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+        <record id="group_super_hierarchique" model="res.groups">
+            <field name="name">Supérieur hiérarchique</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+        <record id="group_responsable_achat" model="res.groups">
+            <field name="name">Responsable Achat</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+        <record id="group_directeur_general" model="res.groups">
+            <field name="name">PDG</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_service_controle_gestion" model="res.groups">
+            <field name="name">SCG</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_president" model="res.groups">
+            <field name="name">Président</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_financier" model="res.groups">
+            <field name="name">Financier</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+        <record id="make_invisible" model="res.groups">
+            <field name="name">Invisible</field>
+        </record>
+
+        <record id="group_agent_commercial" model="res.groups">
+            <field name="name">L'agent commercial</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+         <record id="group_resp_caisse_recette" model="res.groups">
+            <field name="name">Responsable caisse recette</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+         <record id="group_resp_caisse_depense" model="res.groups">
+            <field name="name">Responsable caisse dépense</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_di" model="res.groups">
+            <field name="name">Responsable Direction Infrastructure</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+<!--        <record id="group_grh" model="res.groups">-->
+<!--            <field name="name">Responsable GRH</field>-->
+<!--            <field name="category_id" ref="group_category"/>-->
+<!--        </record>-->
+
+        <record id="responsable_stock" model="res.groups">
+            <field name="name">Responsable Stock</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_service_compta" model="res.groups">
+            <field name="name">Service Comptabilité</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_resp_inventaire" model="res.groups">
+            <field name="name">Responsable Inventaire</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_PC" model="res.groups">
+            <field name="name">Président Commission</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+<!--        <record id="group_agent_co" model="res.groups">-->
+<!--            <field name="name">Agent CO</field>-->
+<!--            <field name="category_id" ref="group_category"/>-->
+<!--            &lt;!&ndash;            <field name="visible" eval="0" />&ndash;&gt;-->
+<!--        </record>-->
+
+        <record id="group_sup_hierarchique_facturation" model="res.groups">
+            <field name="name">sup. hiérarchique facture client</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_sup_hierarchique_facture_fournisseur" model="res.groups">
+            <field name="name">sup. hiérarchique facture fournisseur</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_sup_hierarchique_facture_avoir" model="res.groups">
+            <field name="name">sup. hiérarchique facture avoir</field>
+            <field name="category_id" ref="group_category"/>
+<!--            <field name="implied_ids" eval="[(4,ref('group_agent_commercial'))]"/>-->
+        </record>
+
+
+        <record id="group_service_financier" model="res.groups">
+            <field name="name">Service Financier</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+
+        <record id="group_agent_comptable" model="res.groups">
+            <field name="name">L'agent comptable</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+<!--        <record id="group_ice_cmd" model="res.groups">-->
+<!--            <field name="name">SAE</field>-->
+<!--            <field name="category_id" ref="group_category"/>-->
+<!--        </record>-->
+
+
+        <!--groupe_bon_commande-->
+
+<!--        <record id="group_category_commande" model="ir.module.category">-->
+<!--            <field name="name">Ecopark Commande Fournisseur</field>-->
+<!--            <field name="description">Profils Ecopark Commande Fournisseur</field>-->
+<!--        </record>-->
+
+<!--        <record id="group_ra_cmd" model="res.groups">-->
+<!--            <field name="name">Responsable Achat</field>-->
+<!--            <field name="category_id" ref="group_category_commande"/>-->
+<!--        </record>-->
+<!--        <record id="group_dg_cmd" model="res.groups">-->
+<!--            <field name="name">Directeur Général (DG)</field>-->
+<!--            <field name="category_id" ref="group_category_commande"/>-->
+<!--        </record>-->
+<!--        <record id="group_pr_cmd" model="res.groups">-->
+<!--            <field name="name">Président</field>-->
+<!--            <field name="category_id" ref="group_category_commande"/>-->
+<!--        </record>-->
+<!--        <record id="group_resp_stock_cmd" model="res.groups">-->
+<!--            <field name="name">Responsable Stock</field>-->
+<!--            <field name="category_id" ref="group_category_commande"/>-->
+<!--        </record>-->
+
+        <record id="make_facture" model="res.groups">
+            <field name="name">Profil Ecopark</field>
+        </record>
+
+
+<!--        <record id="responsable_stock_co" model="res.groups">-->
+<!--            <field name="name">Responsable Stock CO</field>-->
+<!--            <field name="category_id" ref="group_category"/>-->
+<!--        </record>-->
+
+        <record id="group_sup_hierarchique_plan_comptable" model="res.groups">
+            <field name="name">sup. hiérarchique plan comptable</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <record id="group_immobilisation" model="res.groups">
+            <field name="name">Immobilisation</field>
+        </record>
+
+        <record id="group_res_immo" model="res.groups">
+            <field name="name">Responsable Immobilisation</field>
+            <field name="category_id" ref="group_category"/>
+        </record>
+
+        <!--		##################"""Debut Partie Profil GRH ##########################"-->
+        <!-- La liste des groupes utilisateurs   -->
+        <!-- groupe Responsable qui appartient à la catégorie ECOPARK GRH -->
+        <record id="group_category_rh" model="ir.module.category">
+            <field name="name">Gestion des Ressources Humaines</field>
+            <field name="description">Profils RH Ecopark</field>
+        </record>
+
+        <record model="res.groups" id="group_resp_juridique">
+            <field name="name">Directeur Juridique (DJ)</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+        <record model="res.groups" id="group_chef_financier">
+<!--            <field name="name">Chéf hiérarchique Financier</field>-->
+            <field name="name">Directeur Financier (DF)</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+        <record model="res.groups" id="group_responsables">
+            <field name="name">Directeur Administratif (DA)</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+        <!--     groupe Responsable RH -->
+        <record model="res.groups" id="group_responsable_rh">
+            <field name="name">Responsable Ressources Humaines</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+        <record model="res.groups" id="group_resp_controle_gestion">
+            <field name="name">Responsable Contrôle de Gestion</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+        <!-- groupe Chef Hiérarchique employée-->
+        <record model="res.groups" id="group_chef_hierarchique">
+            <field name="name">Chef Hiérarchique</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+
+        <record model="res.groups" id="group_resp_financier">
+            <field name="name">Responsable Finance [et Comptabilité]</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+        <record model="res.groups" id="group_resp_comptabilite">
+            <field name="name">Responsable Comptabilité</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+        <!-- groupe Directeur Général (PDG) -->
+        <record id="group_directeur_general_pdg" model="res.groups">
+            <field name="name">Président Directeur Général (PDG)</field>
+            <field name="category_id" ref="group_category_rh"/>
+        </record>
+
+
+        <!-- ##################"""Fin Partie Profil GRH ##########################"-->
+
+        <record id="group_category_GMAO_Formation_Location" model="ir.module.category">
+            <field name="name">Gestion des Formations - Locations - GMAO</field>
+            <field name="description">Profils Formations - Locations - GMAO Ecopark</field>
+        </record>
+
+         <!-- groupe Responsable maintenance -->
+        <record model="res.groups" id="group_resp_maintenance">
+            <field name="name">Responsable maintenance</field>
+            <field name="category_id" ref="group_category_GMAO_Formation_Location"/>
+        </record>
+
+        <!-- groupe Responsable infrastructure -->
+        <record model="res.groups" id="group_resp_infrastructure">
+            <field name="name">Responsable infrastructure et moyens généraux</field>
+            <field name="category_id" ref="group_category_GMAO_Formation_Location"/>
+        </record>
+
+        <!-- Responsable Formation -->
+        <record model="res.groups" id="group_responsable_formation">
+            <field name="name">Responsable Formation</field>
+            <field name="category_id" ref="group_category_GMAO_Formation_Location"/>
+        </record>
+
+        <!-- Responsable Innovation et développement technologique -->
+        <record model="res.groups" id="group_responsable_innovation">
+            <field name="name">Responsable innovation et développement technologique</field>
+            <field name="category_id" ref="group_category_GMAO_Formation_Location"/>
+        </record>
+
+    </data>
+</odoo>
+

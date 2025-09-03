@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_position_budgetaire_categorie_tree" model="ir.ui.view">
+        <field name="name">position.budgetaire.categorie.tree</field>
+        <field name="model">position.budgetaire.categorie</field>
+        <field name="arch" type="xml">
+            <tree string="Catégories de Positions Budgétaires">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_position_budgetaire_categorie_form" model="ir.ui.view">
+        <field name="name">position.budgetaire.categorie.form</field>
+        <field name="model">position.budgetaire.categorie</field>
+        <field name="arch" type="xml">
+            <form string="Catégorie de Position Budgétaire">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Positions Budgétaires">
+                            <field name="position_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_position_budgetaire_categorie" model="ir.actions.act_window">
+        <field name="name">Catégories de Positions Budgétaires</field>
+        <field name="res_model">position.budgetaire.categorie</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_position_budgetaire_root"
+              name="Catégories Budgétaires"
+              parent="account.account_management_menu"
+              action="action_position_budgetaire_categorie"
+              sequence="20"/>
+</odoo>
