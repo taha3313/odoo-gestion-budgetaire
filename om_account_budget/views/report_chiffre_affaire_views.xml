@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+       <!-- Wizard Form -->
+    <record id="view_report_chiffre_affaire_wizard_form" model="ir.ui.view">
+        <field name="name">report.chiffre.affaire.wizard.form</field>
+        <field name="model">report.chiffre.affaire.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Choisir une Année">
+                <group>
+                    <field name="year"/>
+                </group>
+                <footer>
+                    <button string="Générer" type="object" name="action_generate" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le wizard -->
+    <record id="action_report_chiffre_affaire_wizard" model="ir.actions.act_window">
+        <field name="name">Générer Chiffre d'Affaire</field>
+        <field name="res_model">report.chiffre.affaire.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu pour lancer le wizard -->
+    <menuitem id="menu_report_chiffre_affaire_wizard" 
+              name="Rapport Chiffre d'Affaire"
+              parent="menu_report_depense_annuelle_root"
+              action="action_report_chiffre_affaire_wizard"/>
+
+    <!-- Result Tree View -->
+    <record id="view_report_chiffre_affaire_tree" model="ir.ui.view">
+        <field name="name">report.chiffre.affaire.tree</field>
+        <field name="model">report.chiffre.affaire</field>
+        <field name="arch" type="xml">
+            <tree string="Résultats Dépenses Annuelles">
+                <field name="montant_realise_pred"/>
+                <field name="position_budgetaire"/>
+                <field name="montant_facture"/>
+                <field name="montant_prev"/>
+                <field name="montant_encaisse"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Result Pivot View -->
+    <record id="view_report_chiffre_affaire_pivot" model="ir.ui.view">
+        <field name="name">report.chiffre.affaire.pivot</field>
+        <field name="model">report.chiffre.affaire</field>
+        <field name="arch" type="xml">
+            <pivot string="Rapport Dépenses Annuelles" js_class="web_pivot_hide_total">
+                <field name="position_budgetaire" type="row"/>
+                <field name="montant_realise_pred" type="measure"/>
+                <field name="montant_prev" type="measure"/>
+                <field name="montant_facture" type="measure"/>
+                <field name="montant_encaisse" type="measure"/>
+                <field name="pourcentage_evolution" type="measure"/>
+                <field name="pourcentage_encaisse_prev" type="measure"/>
+                <field name="pourcentage_encaisse_facture" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

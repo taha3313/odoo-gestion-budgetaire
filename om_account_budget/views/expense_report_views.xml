@@ -1,0 +1,60 @@
+<odoo>
+
+    <record id="action_report_depense_annuelle" model="ir.actions.act_window">
+        <field name="name">Dépenses Annuelles</field>
+        <field name="res_model">report.depense.annuelle</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_report_depense_annuelle_root"
+              name="Rapports Dépenses"
+              parent="account.menu_finance"
+              sequence="30" />
+
+    <menuitem id="menu_report_depense_annuelle"
+              name="Dépenses Annuelles"
+              parent="menu_report_depense_annuelle_root"
+              action="action_report_depense_annuelle"
+              sequence="10"/>
+
+    <record id="view_report_depense_annuelle_form" model="ir.ui.view">
+        <field name="name">report.depense.annuelle.form</field>
+        <field name="model">report.depense.annuelle</field>
+        <field name="arch" type="xml">
+            <form string="Dépenses Annuelles">
+                <group>
+                    <field name="start_year"/>
+                    <field name="end_year"/>
+                </group>
+                <group>
+                    <field name="table_html" nolabel="1" readonly="1"/>
+                </group>
+                <footer>
+                    <button name="print_pdf"
+                    string="Exporter PDF"
+                    type="object"
+                    class="btn-primary"
+                    icon="fa-download"/>
+
+                    <button name="export_csv"
+                    string="Exporter CSV"
+                    type="object"
+                    class="btn-primary"
+                    icon="fa-download"/>
+
+                </footer>
+            </form>
+        </field>
+    </record>
+
+  <report
+    id="action_report_depense_annuelle_pdf"
+    model="report.depense.annuelle"
+    string="Rapport Dépenses Annuelles"
+    report_type="qweb-pdf"
+    name="om_account_budget.report_depense_annuelle_pdf_template"
+    file="om_account_budget.report_depense_annuelle_pdf_template"
+    print_report_name="'Rapport_Dépenses_%s' % object.start_year"
+  />
+</odoo>

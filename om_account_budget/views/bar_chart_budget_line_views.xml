@@ -1,0 +1,96 @@
+<odoo>
+
+
+        <!-- Wizard Form View -->
+    <record id="view_bar_chart_budget_line_wizard_form" model="ir.ui.view">
+        <field name="name">bar.chart.budget.line.wizard.form</field>
+        <field name="model">bar.chart.budget.line.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Evolution Budget Prévu">
+                <group>
+                    <field name="start_year"/>
+                    <field name="end_year"/>
+                </group>
+                <footer>
+                    <button string="Générer" type="object" name="action_generate" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!-- Wizard Action -->
+    <record id="action_bar_chart_budget_line_wizard" model="ir.actions.act_window">
+        <field name="name">Budget Prévu</field>
+        <field name="res_model">bar.chart.budget.line.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Graph view for Prévision -->
+    <record id="view_bar_chart_budget_line_graph" model="ir.ui.view">
+        <field name="name">bar.chart.budget.line.graph</field>
+        <field name="model">bar.chart.budget.line</field>
+        <field name="arch" type="xml">
+            <graph string="Évolution des réalisations budgétaires" type="bar" stacked="False">
+                <field name="annee" type="row"/>
+                <field name="type_depense" type="col"/>
+                <field name="montant" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_bar_chart_budget_line" model="ir.actions.act_window">
+        <field name="name">Réalisations Budgétaires</field>
+        <field name="res_model">bar.chart.budget.line</field>
+        <field name="view_mode">graph</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+    <menuitem id="menu_bar_chart_budget_line"
+              name="Evolution Budgétaire"
+              parent="menu_report_depense_annuelle_root"
+              action="action_bar_chart_budget_line_wizard"/>
+
+    <!-- Graph view for Réalisé -->
+    <record id="view_bar_chart_budget_realise_graph" model="ir.ui.view">
+        <field name="name">bar.chart.budget.realise.graph</field>
+        <field name="model">bar.chart.budget.realise</field>
+        <field name="arch" type="xml">
+            <graph string="Évolution des montants réalisés" type="bar" stacked="False">
+                <field name="annee" type="row"/>
+                <field name="type_depense" type="col"/>
+                <field name="montant_realise" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+
+        <record id="view_bar_chart_budget_realise_wizard_form" model="ir.ui.view">
+        <field name="name">bar.chart.budget.realise.wizard.form</field>
+        <field name="model">bar.chart.budget.realise.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Evolution Montant Réalisé">
+                <group>
+                    <field name="start_year"/>
+                    <field name="end_year"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Générer Rapport" type="object" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bar_chart_budget_realise_wizard" model="ir.actions.act_window">
+        <field name="name">Montants Réalisés</field>
+        <field name="res_model">bar.chart.budget.realise.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_bar_chart_budget_realise"
+              name="Evolution Réalisée"
+              parent="menu_report_depense_annuelle_root"
+              action="action_bar_chart_budget_realise_wizard"/>
+</odoo>

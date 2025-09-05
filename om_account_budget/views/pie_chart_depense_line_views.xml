@@ -1,0 +1,69 @@
+<odoo>
+
+        <!-- Wizard Form View -->
+    <record id="view_pie_chart_depense_line_wizard_form" model="ir.ui.view">
+        <field name="name">pie.chart.depense.line.wizard.form</field>
+        <field name="model">pie.chart.depense.line.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Choisir une Année">
+                <group>
+                    <field name="year"/>
+                </group>
+                <footer>
+                    <button string="Générer" type="object" name="action_generate" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pie_chart_depense_line_graph" model="ir.ui.view">
+        <field name="name">pie.chart.depense.line.graph</field>
+        <field name="model">pie.chart.depense.line</field>
+        <field name="arch" type="xml">
+            <graph string="Répartition Dépenses par Type" type="pie">
+                <field name="type_depense" type="row"/>
+                <field name="percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_pie_chart_depense_line_tree" model="ir.ui.view">
+        <field name="name">pie.chart.depense.line.tree</field>
+        <field name="model">pie.chart.depense.line</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="annee"/>
+                <field name="type_depense"/>
+                <field name="percentage"/>
+                <field name="montant"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_pie_chart_depense_line_wizard" model="ir.actions.act_window">
+        <field name="name">Générer Camembert Dépenses</field>
+        <field name="res_model">pie.chart.depense.line.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_pie_chart_depense_line_wizard"
+              name="Camembert Dépenses"
+              parent="menu_report_depense_annuelle_root"
+              action="action_pie_chart_depense_line_wizard"
+              />
+
+    <record id="ir_cron_generate_pie_chart_depense" model="ir.cron">
+        <field name="name">Générer Camembert Dépenses</field>
+        <field name="model_id" ref="model_pie_chart_depense_line"/>
+        <field name="state">code</field>
+        <!-- Cron generates for current user only -->
+        <field name="code">model.generate_lines_for_year()</field>
+        <field name="interval_type">days</field>
+        <field name="interval_number">1</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

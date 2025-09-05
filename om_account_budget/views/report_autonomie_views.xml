@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard Form -->
+    <record id="view_report_autonomie_wizard_form" model="ir.ui.view">
+        <field name="name">report.autonomie.wizard.form</field>
+        <field name="model">report.autonomie.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Générer le Rapport Autonomie">
+                <group>
+                    <field name="year_n"/>
+                    <field name="mode" widget="radio" options="{'horizontal': true}" default="exclude_categ"/>
+                    <field name="select_all"/>
+                </group>
+                <group attrs="{'invisible': [('mode','!=','exclude_categ')]}">
+                    <field name="categorie_ids" widget="many2many_checkboxes"/>
+                </group>
+                <group attrs="{'invisible': [('mode','!=','exclude_positions')]}">
+                    <field name="position_ids" widget="many2many_checkboxes"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" string="Générer" class="btn-primary"/>
+                    <button string="Annuler" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!-- Wizard Action -->
+    <record id="action_report_autonomie_wizard" model="ir.actions.act_window">
+        <field name="name">Rapport Autonomie</field>
+        <field name="res_model">report.autonomie.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu to open wizard -->
+    <menuitem id="menu_report_autonomie"
+              name="Rapport Autonomie"
+              parent="menu_report_depense_annuelle_root"
+              action="action_report_autonomie_wizard"
+              sequence="20"/>
+
+
+
+    <!-- Wizard version classique-->
+    <record id="view_report_autonomie_wizard_classic_form" model="ir.ui.view">
+        <field name="name">report.autonomie.wizard.classic.form</field>
+        <field name="model">report.autonomie.wizard.classic</field>
+        <field name="arch" type="xml">
+            <form string="Générer le Rapport Autonomie">
+                <group>
+                    <field name="year_n"/>
+                    <field name="mode" widget="radio" options="{'horizontal': true}" default="exclude_categ"/>
+                    <field name="select_all"/>
+                </group>
+                <group attrs="{'invisible': [('mode','!=','exclude_categ')]}">
+                    <field name="categorie_ids" widget="many2many_checkboxes"/>
+                </group>
+                <group attrs="{'invisible': [('mode','!=','exclude_positions')]}">
+                    <field name="position_ids" widget="many2many_checkboxes"/>
+                </group>
+                <group attrs="{'invisible': [('file_data','=',False)]}">
+                    <field name="file_name" readonly="1" invisible="1"/>
+                    <field name="file_data" filename="file_name" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_export_csv" type="object" string="Télécharger CSV" class="btn-primary"/>
+                    <button name="action_export_pdf" type="object" string="Télécharger PDF" class="btn-secondary"/>
+                    <button string="Fermer" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_report_autonomie_wizard_classic" model="ir.actions.act_window">
+        <field name="name">Rapport Autonomie 2</field>
+        <field name="res_model">report.autonomie.wizard.classic</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu to open wizard -->
+    <menuitem id="menu_report_autonomie2"
+              name="Rapport Autonomie 2"
+              parent="menu_report_depense_annuelle_root"
+              action="action_report_autonomie_wizard_classic"
+              sequence="20"/>
+
+    <!-- Report Tree View -->
+    <record id="view_report_autonomie_tree" model="ir.ui.view">
+        <field name="name">report.autonomie.tree</field>
+        <field name="model">report.autonomie</field>
+        <field name="arch" type="xml">
+            <tree string="Rapport Autonomie">
+                <field name="name"/>
+                <field name="realisation_n_2"/>
+                <field name="realisation_n_1"/>
+                <field name="realisation_n"/>
+                <field name="prevision_n_plus_1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Report Pivot View -->
+    <record id="view_report_autonomie_pivot" model="ir.ui.view">
+        <field name="name">report.autonomie.pivot</field>
+        <field name="model">report.autonomie</field>
+        <field name="arch" type="xml">
+            <pivot string="Rapport Autonomie" js_class="custom_pivot_hide_total">
+                <field name="name" type="row"/>
+                <field name="realisation_n_2" type="measure" sum="False"/>
+                <field name="realisation_n_1" type="measure" sum="False"/>
+                <field name="realisation_n" type="measure" sum="False"/>
+                <field name="prevision_n_plus_1" type="measure" sum="False"/>
+            </pivot>
+        </field>
+    </record>
+
+</odoo>

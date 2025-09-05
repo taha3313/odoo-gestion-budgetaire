@@ -1,0 +1,10 @@
+<odoo>
+  <template id="assets_backend" name="pivot export assets" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+      <script type="text/javascript" src="/om_account_budget/static/src/js/pivot_export_pdf.js"></script>
+      <script type="text/javascript" src="/om_account_budget/static/src/js/graph_export_pdf.js"></script>
+      <script type="text/javascript" src="/om_account_budget/static/src/js/custom_pivot_model_hide_total.js"></script>
+      <script type="text/javascript" src="/om_account_budget/static/src/js/custom_pivot_view_hide_total.js"></script>
+    </xpath>
+  </template>
+</odoo>
