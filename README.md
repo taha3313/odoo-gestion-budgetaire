@@ -109,7 +109,7 @@
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone ssh://git@gitlab.tools.iway:2222/odoo/pfa-odoo-2025.git
+git clone https://github.com/taha3313/odoo-gestion-budgetaire.git
 cd pfa-odoo-2025
 ```
 
