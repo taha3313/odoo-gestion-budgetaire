@@ -59,6 +59,7 @@ class ReportAutonomie(models.Model):
             domain = [
                 ('date_from', '<=', f"{year}-12-31"),
                 ('date_to', '>=', f"{year}-01-01"),
+                ('crossovered_budget_id.state', '=', 'done'),
             ]
             if budget_type:
                 domain.append(('crossovered_budget_id.type_budget', '=', budget_type))

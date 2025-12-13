@@ -41,6 +41,7 @@ class ReportCAAnneeWizard(models.TransientModel):
                 ('date_from', '<=', date_to),
                 ('date_to', '>=', date_from),
                 ('crossovered_budget_id.type_budget', '=', 'revenue'),
+                ('crossovered_budget_id.state', '=', 'done'),
             ]
             lines_ca = BudgetLine.search(domain_ca)
             total_real_ca = sum(line.montant_realise or 0.0 for line in lines_ca)

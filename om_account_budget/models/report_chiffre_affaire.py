@@ -77,12 +77,14 @@ class ReportChiffreAffaire(models.Model):
                 ('date_from', '<=', date_to),
                 ('date_to', '>=', date_from),
                 ('crossovered_budget_id.type_budget', '=', 'revenue'),
+                ('crossovered_budget_id.state', '=', 'done'),
                 ('general_budget_id', '=', position_id),
             ]
             domain_pred = [
                 ('date_from', '<=', date_to_pred),
                 ('date_to', '>=', date_from_pred),
                 ('crossovered_budget_id.type_budget', '=', 'revenue'),
+                ('crossovered_budget_id.state', '=', 'done'),
                 ('general_budget_id', '=', position_id),
             ]
 

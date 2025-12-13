@@ -38,6 +38,7 @@ class ReportDepenseAnnuelle(models.TransientModel):
                     ('date_from', '<=', date_to),
                     ('date_to', '>=', date_from),
                     ('crossovered_budget_id.type_budget', '=', depense_type),
+                    ('crossovered_budget_id.state', '=', 'done'),
                 ]
 
                 budget_lines = BudgetLine.search(domain)
