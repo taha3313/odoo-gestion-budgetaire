@@ -10,11 +10,11 @@
     <menuitem id="menu_report_depense_annuelle_root"
               name="Rapports Dépenses"
               parent="account.menu_finance"
-              sequence="30" />
+              sequence="30" invisible="1"/>
 
     <menuitem id="menu_report_depense_annuelle"
               name="Dépenses Annuelles"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_report_depense_annuelle"
               sequence="10"/>
 

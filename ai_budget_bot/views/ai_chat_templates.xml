@@ -1,0 +1,12 @@
+<t t-name="ai_chat.ChatWidget">
+    <div class="ai-chat-container">
+        <div class="ai-chat-messages" id="chat_messages">
+            <!-- messages appended here -->
+        </div>
+
+        <div class="ai-chat-input">
+            <input type="text" id="chat_input" placeholder="Posez votre question..." />
+            <button id="chat_send">Envoyer</button>
+        </div>
+    </div>
+</t>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="view_budget_post_search" model="ir.ui.view">
         <field name="name">account.budget.post.search</field>
         <field name="model">account.budget.post</field>
@@ -30,10 +28,9 @@
         <field name="view_id" ref="view_budget_post_tree"/>
         <field name="search_view_id" ref="view_budget_post_search"/>
     </record>
-    <menuitem action="open_budget_post_form" id="menu_budget_post_form"
-              parent="account.account_management_menu" sequence="5"/>
 
-
+    <menuitem action="open_budget_post_form" id="menu_budget_post_form" parent="account.account_management_menu"
+              sequence="5"/>
     <record model="ir.ui.view" id="view_budget_post_form">
         <field name="name">account.budget.post.form</field>
         <field name="model">account.budget.post</field>
@@ -41,8 +38,8 @@
             <form string="Budgetary Position">
                 <group col="4">
                     <field name="name"/>
-                    <field name="categorie_id"/>
                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="categorie_id" />
                 </group>
                 <notebook>
                     <page string="Comptes">
@@ -69,23 +66,26 @@
                     <button string="soumettre au DAF" name="action_soumettre_daf" states="confirm" type="object"
                             class="oe_highlight" groups="ccit_groups_config.group_resp_controle_gestion"/>
                     <button string="Approuver" name="action_budget_validate" states="to_daf" type="object"
-                            class="oe_highlight" groups="ccit_groups_config.group_responsables"/>
-                    <button string="Refuser" name="action_budget_refuser_daf" states="to_daf" type="object"
-                            class="oe_highlight" groups="ccit_groups_config.group_responsables"/>
+                            class="btn-success" groups="ccit_groups_config.group_responsables"/>
+                    <button string="Réviser" name="action_budget_refuser_daf" states="to_daf" type="object"
+                            icon="fa-mail-reply-all" class="oe_highlight"
+                            groups="ccit_groups_config.group_responsables"/>
                     <button string="soumettre au PDG" name="action_soumettre_pdg" states="validate" type="object"
                             class="oe_highlight" groups="ccit_groups_config.group_responsables"/>
-                    <button string="Fait" name="action_budget_done" states="to_pdg" type="object"
-                            class="oe_highlight" groups="ccit_groups_config.group_directeur_general"/>
+                    <button string="Fait" name="action_budget_done" states="to_pdg" type="object" class="btn-success"
+                            groups="ccit_groups_config.group_directeur_general"/>
                     <button string="Refuser" name="action_budget_refuser_pdg" states="to_pdg" type="object"
-                            class="oe_highlight" groups="ccit_groups_config.group_directeur_general"/>
+                            class="btn btn-danger" groups="ccit_groups_config.group_directeur_general"/>
                     <button string="Réinitialiser au brouillon" name="action_budget_draft" states="cancel"
-                            type="object" groups="ccit_groups_config.group_resp_controle_gestion"/>
-                    <button string="Annuler le budget" name="action_budget_cancel" states="confirm,validate"
-                            type="object" groups="ccit_groups_config.group_resp_controle_gestion"/>
-                     <button string="remettre au brouillon" name="action_set_to_draft" states="confirm,refuse_daf,refuse_pdg"
-                            type="object" groups="ccit_groups_config.group_resp_controle_gestion"/>
-
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,to_daf,validate,to_pdg,done"/>
+                            icon="fa-mail-reply-all" type="object"
+                            groups="ccit_groups_config.group_resp_controle_gestion"/>
+                    <button string="Annuler le budget" name="action_budget_cancel" states="confirm"
+                            class="btn btn-danger" type="object"
+                            groups="ccit_groups_config.group_resp_controle_gestion"/>
+                    <button string="Remettre au brouillon" name="action_set_to_draft" icon="fa-mail-reply-all"
+                            states="confirm," type="object" groups="ccit_groups_config.group_resp_controle_gestion"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirm,to_daf,validate,to_pdg,done"/>
                 </header>
                 <sheet string="Budget">
                     <div class="oe_title">
@@ -100,12 +100,12 @@
                             <field name="type_budget" attrs="{'readonly':[('state','!=','draft')]}"/>
                         </group>
                         <group>
-<!--                            <field name="user_id" attrs="{'readonly':[('state','!=','draft')]}"/>-->
+                            <!--                             <field name="user_id" attrs="{'readonly':[('state','!=','draft')]}"/> -->
                             <field name="user_id" readonly="1"/>
                         </group>
                     </group>
+                    <group>
                         <group>
-                            <group>
                             <label for="date_from" string="Période"/>
                             <div>
                                 <field name="date_from" class="oe_inline"
@@ -114,22 +114,19 @@
                                 <field name="date_to" class="oe_inline" attrs="{'readonly':[('state','!=','draft')]}"
                                        nolabel="1"/>
                             </div>
-                                </group>
-                            <group>
-                                <field name="pv_comission" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
-                                <field name="date_commission" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
-
-                            </group>
-                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
                         </group>
+                        <group>
+                            <field name="pv_comission" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="date_commission" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    </group>
                     <notebook>
                         <page string="Lignes budgétaires">
                             <field name="crossovered_budget_line"
                                    context="{'default_date_from': date_from,'default_date_to': date_to}" colspan="4"
                                    nolabel="1" attrs="{'readonly':[('state','!=','draft')]}">
-                                <tree string="Budget Lines"
-                                      decoration-success="is_above_budget and planned_amount &gt; 0"
-                                      decoration-danger="is_above_budget and planned_amount &lt; 0" editable="bottom">
+                                <tree string="Budget Lines"  editable="bottom">
                                     <field name="general_budget_id"/>
                                     <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
                                     <field name="date_from"/>
@@ -140,18 +137,16 @@
                                     <field name="montant_prev" sum="Planned Amount" digits="[16,3]" invisible="1"/>
                                     <field name="montant_engaged" sum="Planned Amount" digits="[16,3]"/>
                                     <field name="montant_engag" sum="Planned Amount" digits="[16,3]" invisible="1"/>
-
-                                    <field name="pourcentage_engagement" string="Engagement"  widget="percentage"/>
+                                    <field name="pourcentage_engagement" string="Engagement" widget="percentage"/>
                                     <field name="montant_realise" sum="Montant réalisé" digits="[16,3]"/>
                                     <field name="realisation" widget="percentage" invisible="1"/>
                                     <field name="percentage" widget="percentage"/>
                                     <field name="montant_pratique_paiement" sum="Montant pratique" digits="[16,3]"/>
-
-                                    <field name="practical_amount" sum="Practical Amount" digits="[16,3]"  invisible="1"/>
-                                    <field name="montant_pratique" sum="Montant Réalisé" digits="[16,3]"
+                                    <field name="practical_amount" sum="Practical Amount" digits="[16,3]"
                                            invisible="1"/>
-
-                                    <field name="theoritical_amount" sum="Theoretical Amount" digits="[16,3]" invisible="1"/>
+                                    <field name="montant_pratique" sum="Montant Réalisé" digits="[16,3]" invisible="1"/>
+                                    <field name="theoritical_amount" sum="Theoretical Amount" digits="[16,3]"
+                                           invisible="1"/>
                                     <field name="montant_theorique" sum="Theoretical Amount" digits="[16,3]"
                                            invisible="1"/>
                                     <button type="object" name="action_open_budget_entries" string="Entries..."
@@ -182,15 +177,14 @@
                                 </form>
                             </field>
                         </page>
-                         <page string="Commentaires des responsables">
-                             <group>
-<!--                                 <field name="commentaire_daf" attrs="{'required':[('state','in',['to_daf'])]}"/>-->
-                                  <field name="commentaire_daf" readonly="1"/>
-<!--                                 <field name="commentaire_pdg" attrs="{'required':[('state','in',['to_pdg'])]}"/>-->
-                                 <field name="commentaire_pdg" readonly="1"/>
-
-                             </group>
-                         </page>
+                        <page string="Commentaires des responsables">
+                            <group>
+                                <!--                                  <field name="commentaire_daf" attrs="{'required':[('state','in',['to_daf'])]}"/> -->
+                                <field name="commentaire_daf" readonly="1"/>
+                                <!--                                  <field name="commentaire_pdg" attrs="{'required':[('state','in',['to_pdg'])]}"/> -->
+                                <field name="commentaire_pdg" readonly="1"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
@@ -200,44 +194,36 @@
             </form>
         </field>
     </record>
-
-<!--    groupe DAF -->
-
+    <!--     groupe DAF  -->
     <record id="crossovered_budget_view_forminherit_DAF" model="ir.ui.view">
-    <field name="name">crossovered.budget.view.form.DAF</field>
-    <field name="model">crossovered.budget</field>
-    <field name="inherit_id" ref="om_account_budget.crossovered_budget_view_form"/>
-    <field name="groups_id"
-           eval="[(6, 0, [ref('ccit_groups_config.group_responsables')])]"/>
-    <field name="arch" type="xml">
-           <field name='commentaire_daf' position="attributes">
-            <attribute name="readonly">0</attribute>
-            <attribute name="attrs">{'readonly': [('state','not in', ('to_daf'))], 'required': [('state','in',
-                ('to_daf'))] }
-            </attribute>
+        <field name="name">crossovered.budget.view.form.DAF</field>
+        <field name="model">crossovered.budget</field>
+        <field name="inherit_id" ref="om_account_budget.crossovered_budget_view_form"/>
+        <field name="groups_id" eval="[(6, 0, [ref('ccit_groups_config.group_responsables')])]"/>
+        <field name="arch" type="xml">
+            <field name="commentaire_daf" position="attributes">
+                <attribute name="readonly">0</attribute>
+                <attribute name="attrs">{'readonly': [('state','not in', ('to_daf'))], 'required': [('state','in',
+                    ('to_daf'))] }
+                </attribute>
+            </field>
         </field>
-    </field>
     </record>
-
-    <!--    groupe PDG -->
-
+    <!--     groupe PDG  -->
     <record id="crossovered_budget_view_forminherit_PDG" model="ir.ui.view">
-    <field name="name">crossovered.budget.view.form.PDG</field>
-    <field name="model">crossovered.budget</field>
-    <field name="inherit_id" ref="om_account_budget.crossovered_budget_view_form"/>
-    <field name="groups_id"
-           eval="[(6, 0, [ref('ccit_groups_config.group_directeur_general')])]"/>
-    <field name="arch" type="xml">
-           <field name='commentaire_pdg' position="attributes">
-            <attribute name="readonly">0</attribute>
-            <attribute name="attrs">{'readonly': [('state','not in', ('to_pdg'))], 'required': [('state','in',
-                ('to_pdg'))] }
-            </attribute>
+        <field name="name">crossovered.budget.view.form.PDG</field>
+        <field name="model">crossovered.budget</field>
+        <field name="inherit_id" ref="om_account_budget.crossovered_budget_view_form"/>
+        <field name="groups_id" eval="[(6, 0, [ref('ccit_groups_config.group_directeur_general')])]"/>
+        <field name="arch" type="xml">
+            <field name="commentaire_pdg" position="attributes">
+                <attribute name="readonly">0</attribute>
+                <attribute name="attrs">{'readonly': [('state','not in', ('to_pdg'))], 'required': [('state','in',
+                    ('to_pdg'))] }
+                </attribute>
+            </field>
         </field>
-    </field>
     </record>
-
-
     <record model="ir.ui.view" id="crossovered_budget_view_tree">
         <field name="name">crossovered.budget.view.tree</field>
         <field name="model">crossovered.budget</field>
@@ -252,7 +238,6 @@
             </tree>
         </field>
     </record>
-
     <record id="view_crossovered_budget_kanban" model="ir.ui.view">
         <field name="name">crossovered.budget.kanban</field>
         <field name="model">crossovered.budget</field>
@@ -282,15 +267,15 @@
                             <div class="row">
                                 <div class="col-10">
                                     <i class="fa fa-clock-o" role="img" aria-label="Period" title="Period"/>
-                                    <t t-esc="record.date_from.value"/>-
+                                    <t t-esc="record.date_from.value"/>
+                                    -
                                     <t t-esc="record.date_to.value"/>
                                 </div>
                                 <div class="col-2">
                                     <span class="float-right">
                                         <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)"
                                              t-att-title="record.user_id.value" t-att-alt="record.user_id.value"
-                                             width="24" height="24"
-                                             class="oe_kanban_avatar float-right"/>
+                                             width="24" height="24" class="oe_kanban_avatar float-right"/>
                                     </span>
                                 </div>
                             </div>
@@ -300,7 +285,6 @@
             </kanban>
         </field>
     </record>
-
     <record id="view_crossovered_budget_search" model="ir.ui.view">
         <field name="name">crossovered.budget.search</field>
         <field name="model">crossovered.budget</field>
@@ -316,7 +300,6 @@
             </search>
         </field>
     </record>
-
     <record model="ir.actions.act_window" id="act_crossovered_budget_view">
         <field name="name">Budgets</field>
         <field name="res_model">crossovered.budget</field>
@@ -324,32 +307,20 @@
         <field name="view_id" ref="crossovered_budget_view_tree"/>
         <field name="search_view_id" ref="view_crossovered_budget_search"/>
         <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Cliquez pour créer un nouveau budget.
-            </p>
-            <p>
-                Utiliser les budgets pour comparer les revenus et les coûts réels avec ceux attendus
-            </p>
+            <p class="o_view_nocontent_smiling_face">Cliquez pour créer un nouveau budget.</p>
+            <p>Utiliser les budgets pour comparer les revenus et les coûts réels avec ceux attendus</p>
         </field>
     </record>
-    <menuitem parent="account.menu_finance_entries_management"
-              id="menu_act_crossovered_budget_view"
-              name="Budgets"
-              action="act_crossovered_budget_view" sequence="60"
-              groups="account.group_account_manager"/>
-
+    <menuitem parent="account.menu_finance_entries_management" id="menu_act_crossovered_budget_view" name="Budgets"
+              action="act_crossovered_budget_view" sequence="60" groups="account.group_account_manager"/>
     <menuitem id="menu_budget_managment" name="Gestion budgétaire" parent="account.menu_finance" sequence="10"
               groups="ccit_groups_config.group_agent_comptable,ccit_groups_config.group_directeur_general,ccit_groups_config.group_responsables,ccit_groups_config.group_resp_controle_gestion,ccit_groups_config.group_financier"/>
-
-    <menuitem action="act_crossovered_budget_view" name="Gestion des budgets"
-              id="menu_budgets" parent="menu_budget_managment"
+    <menuitem action="act_crossovered_budget_view" name="Gestion des budgets" id="menu_budgets"
+              parent="menu_budget_managment"
               groups="ccit_groups_config.group_agent_comptable,ccit_groups_config.group_directeur_general,ccit_groups_config.group_responsables,ccit_groups_config.group_resp_controle_gestion,ccit_groups_config.group_financier"/>
-
-    <menuitem action="open_budget_post_form" id="menu_budget_managment_post_form"
-              parent="menu_budget_managment" sequence="5"
+    <menuitem action="open_budget_post_form" id="menu_budget_managment_post_form" parent="menu_budget_managment"
+              sequence="5"
               groups="ccit_groups_config.group_agent_comptable,ccit_groups_config.group_directeur_general,ccit_groups_config.group_responsables,ccit_groups_config.group_resp_controle_gestion,ccit_groups_config.group_financier"/>
-
-
     <record id="view_crossovered_budget_line_search" model="ir.ui.view">
         <field name="name">account.budget.line.search</field>
         <field name="model">crossovered.budget.lines</field>
@@ -359,14 +330,12 @@
                 <field name="crossovered_budget_id"/>
                 <filter name="filter_not_cancelled" string="Not Cancelled"
                         domain="[('crossovered_budget_state','!=','cancel')]"/>
-                <filter name="filter_approved" string="Approuvé"
-                        domain="[('crossovered_budget_state','=','done')]"/>
-                <group  string="Group By">
+                <filter name="filter_approved" string="Approuvé" domain="[('crossovered_budget_state','=','done')]"/>
+                <group string="Group By">
                     <filter name="group_crossevered_budgdet_id" string="Budgets" domain="[]"
                             context="{'group_by':'crossovered_budget_id'}"/>
                 </group>
             </search>
-
         </field>
     </record>
 
@@ -384,19 +353,17 @@
                 <field name="paid_date" groups="base.group_no_one" invisible="1"/>
                 <field name="planned_amount"/>
                 <field name="montant_engaged" invisible="0"/>
-                <field name="montant_engag" invisible="1" />
+                <field name="montant_engag" invisible="1"/>
                 <field name="pourcentage_engagement" widget="percentage"/>
                 <field name="montant_realise"/>
                 <field name="percentage" widget="percentage"/>
                 <field name="practical_amount" invisible="1"/>
                 <field name="theoritical_amount" invisible="1"/>
                 <field name="montant_pratique_paiement"/>
-
-
-
             </tree>
         </field>
     </record>
+
     <record model="ir.ui.view" id="view_crossovered_budget_line_form">
         <field name="name">crossovered.budget.line.form</field>
         <field name="model">crossovered.budget.lines</field>
@@ -417,23 +384,22 @@
                         <field name="paid_date" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"
                                invisible="1"/>
                         <field name="planned_amount" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
-                        <field name="montant_engaged" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}" />
-                        <field name="montant_engag" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}" invisible="1"/>
-
-                        <field name="pourcentage_engagement" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
-                        <field name="practical_amount"
-                               attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}" invisible="1"/>
+                        <field name="montant_engaged" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
+                        <field name="montant_engag" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"
+                               invisible="1"/>
+                        <field name="pourcentage_engagement"
+                               attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
+                        <field name="practical_amount" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"
+                               invisible="1"/>
                         <field name="montant_realise" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
                         <field name="theoritical_amount"
                                attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}" invisible="1"/>
-
                         <field name="percentage" widget="percentage"
                                attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
-                        <field name="montant_pratique_paiement" attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
-
+                        <field name="montant_pratique_paiement"
+                               attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
                         <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"
                                attrs="{'readonly':[('crossovered_budget_state','!=','draft')]}"/>
-
                     </group>
                 </sheet>
             </form>
@@ -447,18 +413,16 @@
             <pivot string="Budget Lines">
                 <field name="crossovered_budget_id" type="row"/>
                 <field name="montant_prev" type="measure" string="Montant prévue"/>
-<!--                <field name="montant_engaged" type="measure" string="Montant Engagé" />-->
+                <!--                 <field name="montant_engaged" type="measure" string="Montant Engagé" /> -->
                 <field name="montant_engag" type="measure" string="Montant Engagé"/>
-<!--                <field name="pourcentage_engagement" type="measure" string="Pourcentage d'engagement"/>-->
+                <!--                 <field name="pourcentage_engagement" type="measure" string="Pourcentage d'engagement"/> -->
                 <field name="engagement" type="measure" string="Pourcentage d'engagement" widget="percentage"/>
-<!--                <field name="montant_realise" type="measure" string="Montant réalisé"/>-->
+                <!--                 <field name="montant_realise" type="measure" string="Montant réalisé"/> -->
                 <field name="montant_rea" type="measure" string="Montant réalisé"/>
                 <field name="realisation" type="measure" widget="percentage"/>
                 <field name="montant_theorique" type="measure" string="Montant théorique" invisible="1"/>
                 <field name="montant_pratique" type="measure" string="Montant réalisé"/>
                 <field name="paiement" type="measure" string="Montant pratique"/>
-
-
             </pivot>
         </field>
     </record>
@@ -470,38 +434,38 @@
             <graph string="Budget Lines">
                 <field name="crossovered_budget_id" type="row"/>
                 <field name="montant_prev" type="measure" string="Montant prévue"/>
-<!--                <field name="montant_engaged" type="measure" string="Montant Engagé" />-->
-                <field name="montant_engag" type="measure" string="Montant Engagé" />
-<!--                <field name="pourcentage_engagement" type="measure" string="Pourcentage d'engagement" widget="percentage"/>-->
+                <!--                 <field name="montant_engaged" type="measure" string="Montant Engagé" /> -->
+                <field name="montant_engag" type="measure" string="Montant Engagé"/>
+                <!--                 <field name="pourcentage_engagement" type="measure" string="Pourcentage d'engagement" widget="percentage"/> -->
                 <field name="engagement" type="measure" string="Pourcentage d'engagement" widget="percentage"/>
-<!--                <field name="montant_realise" type="measure" string="Montant réalisé"/>-->
+                <!--                 <field name="montant_realise" type="measure" string="Montant réalisé"/> -->
                 <field name="montant_rea" type="measure" string="Montant réalisé"/>
-                  <field name="realisation" type="measure" widget="percentage"/>
+                <field name="realisation" type="measure" widget="percentage"/>
                 <field name="montant_theorique" type="measure" string="Montant théorique" invisible="1"/>
                 <field name="montant_pratique" type="measure" string="Montant pratique"/>
-
             </graph>
         </field>
     </record>
+
     <record model="ir.actions.act_window" id="act_crossovered_budget_lines_view">
         <field name="name">Analyse budgétaire</field>
         <field name="res_model">crossovered.budget.lines</field>
         <field name="view_mode">tree,form,pivot,graph</field>
         <field name="view_id" eval="False"/>
-         <field name="context">{'search_default_group_crossevered_budgdet_id': True,
+        <field name="context">{'search_default_group_crossevered_budgdet_id': True,
             'search_default_filter_approved':True}
         </field>
     </record>
 
-        <menuitem parent="menu_budget_managment"
-                  id="menu_act_crossovered_budget_lines_view"
-                  action="act_crossovered_budget_lines_view" sequence="20"
-                  groups="ccit_groups_config.group_service_controle_gestion,ccit_groups_config.group_financier,ccit_groups_config.group_agent_comptable,ccit_groups_config.group_responsables,ccit_groups_config.group_directeur_general"/>
+    <menuitem parent="menu_budget_managment" id="menu_act_crossovered_budget_lines_view"
+              action="act_crossovered_budget_lines_view" sequence="20"
+              groups="ccit_groups_config.group_service_controle_gestion,ccit_groups_config.group_financier,ccit_groups_config.group_agent_comptable,ccit_groups_config.group_responsables,ccit_groups_config.group_directeur_general"/>
 
     <act_window name="Postes budgétaires"
                 context="{'search_default_analytic_account_id': [active_id], 'default_analytic_account_id': active_id}"
-                res_model="crossovered.budget.lines"
-                binding_model="account.analytic.account"
+                res_model="crossovered.budget.lines" binding_model="account.analytic.account"
                 id="act_account_analytic_account_cb_lines"/>
+
+    <menuitem id="menu_budget_reports" name="Rapports de suivi" parent="menu_budget_managment" sequence="20"/>
 
 </odoo>

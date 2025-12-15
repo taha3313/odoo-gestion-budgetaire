@@ -1,0 +1,4 @@
+<odoo>
+    <menuitem id="menu_ai_chat_root" name="AI Chatbot" sequence="10"/>
+    <menuitem id="menu_ai_chat" name="Chat" parent="menu_ai_chat_root" action="action_ai_chat"/>
+</odoo>

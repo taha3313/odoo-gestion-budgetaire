@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+import odoo.addons.decimal_precision as dp
+
 
 class ReportDepenseAnnuelleResult(models.Model):
     _name = 'report.depense.annuelle.result'
@@ -10,22 +12,15 @@ class ReportDepenseAnnuelleResult(models.Model):
         ('investissement', 'Investissement'),
         ('dette', 'Dette'),
     ], string='Type Dépense', index=True)
-    montant_real = fields.Float(string='Montant Réalisé')
-    montant_prev = fields.Float(string='Montant Prévisionnel')
+    montant_real = fields.Float(string='Montant Réalisé', digits=dp.get_precision('Account'))
+    montant_prev = fields.Float(string='Montant Prévisionnel', digits=dp.get_precision('Account'))
     user_id = fields.Many2one('res.users', string='Utilisateur', index=True)
 
+    # stored percentage → usable in pivot
     pourcentage_realisation = fields.Float(
         string='Réalisation (%)',
-        compute='_compute_pourcentage_realisation',
-        group_operator="avg",
+        digits=dp.get_precision('Account'),
+        readonly=True,
         store=True,
-        readonly=True
+        group_operator="avg"
     )
-
-    @api.depends('montant_real', 'montant_prev')
-    def _compute_pourcentage_realisation(self):
-        for record in self:
-            if record.montant_prev:
-                record.pourcentage_realisation = (record.montant_real / record.montant_prev) * 100
-            else:
-                record.pourcentage_realisation = None

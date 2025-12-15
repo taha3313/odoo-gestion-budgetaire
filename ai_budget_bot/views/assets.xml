@@ -1,0 +1,8 @@
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/ai_budget_bot/static/src/js/ai_chat.js"/>
+            <link rel="stylesheet" href="/ai_budget_bot/static/src/css/ai_chat.css"/>
+        </xpath>
+    </template>
+</odoo>

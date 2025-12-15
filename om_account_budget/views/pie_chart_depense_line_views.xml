@@ -50,7 +50,7 @@
 
     <menuitem id="menu_pie_chart_depense_line_wizard"
               name="Camembert Dépenses"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_pie_chart_depense_line_wizard"
               />
 

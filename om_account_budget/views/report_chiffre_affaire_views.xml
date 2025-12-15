@@ -29,7 +29,7 @@
     <!-- Menu pour lancer le wizard -->
     <menuitem id="menu_report_chiffre_affaire_wizard" 
               name="Rapport Chiffre d'Affaire"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_report_chiffre_affaire_wizard"/>
 
     <!-- Result Tree View -->

@@ -1,0 +1,9 @@
+<odoo>
+    <template id="restore_pivot_pdf" inherit_id="web.PivotViewButtons" name="Restore PDF Button">
+        <xpath expr="//div[contains(@class, 'o_pivot_buttons')]" position="inside">
+            <button type="button" class="btn btn-secondary o_pivot_download">
+                PDF
+            </button>
+        </xpath>
+    </template>
+</odoo>

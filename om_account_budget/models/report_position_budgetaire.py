@@ -74,7 +74,17 @@ class ReportPositionBudgetaireWizard(models.TransientModel):
                 total_real = sum(line.montant_realise or 0.0 for line in lines)
                 total_prev = sum(line.montant_prev or 0.0 for line in lines)
 
-                if total_real or total_prev:
+                if abs(total_prev) > 0:
+                    pourcentage_realisation = (total_real / total_prev) * 100
+                    self.env['report.position.budgetaire.result'].create({
+                        'annee': str(year),
+                        'position_budgetaire': position_id,
+                        'montant_real': total_real,
+                        'montant_prev': total_prev,
+                        'pourcentage_realisation': pourcentage_realisation,
+                        'user_id': self.env.uid,
+                    })
+                else:
                     self.env['report.position.budgetaire.result'].create({
                         'annee': str(year),
                         'position_budgetaire': position_id,
@@ -82,6 +92,7 @@ class ReportPositionBudgetaireWizard(models.TransientModel):
                         'montant_prev': total_prev,
                         'user_id': self.env.uid,
                     })
+  
 
         return {
             'name': 'Rapport Position Budgetaire',

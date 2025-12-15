@@ -32,7 +32,7 @@
     </record>
 
     <!-- Menu Items -->
-    <menuitem id="menu_report_position_budgetaire" name="Rapport Postions Budgétaires" parent="menu_report_depense_annuelle_root" action="action_report_position_budgetaire_wizard" sequence="10"/>
+    <menuitem id="menu_report_position_budgetaire" name="Rapport Postions Budgétaires" parent="menu_budget_reports" action="action_report_position_budgetaire_wizard" sequence="10"/>
 
     <!-- Result Tree View -->
     <record id="view_report_position_budgetaire_result_tree" model="ir.ui.view">

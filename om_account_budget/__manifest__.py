@@ -26,6 +26,7 @@
         'views/report_ca_annee_views.xml',
         'views/assets.xml',
         'views/position_budgetaire_categorie_views.xml',
+        # 'views/template_pivot.xml',
         'report/mail_template.xml',
 
     ],

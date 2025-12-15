@@ -43,6 +43,7 @@ class BarChartBudgetRealise(models.Model):
                 ('date_to', '>=', date_from),
                 ('crossovered_budget_id.type_budget', '=', type_dep),
                 ('crossovered_budget_id.state', '=', 'done'),
+
             ]
             lines = BudgetLine.search(domain)
             total_realise = sum(abs(line.montant_realise or 0.0) for line in lines)

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ai_budget_chat_wizard_user,ai.budget.chat.wizard user,model_ai_budget_chat_wizard,base.group_user,1,1,1,1
+access_ai_budget_chat_wizard_controle_gestion,ai.budget.chat.wizard CG,model_ai_budget_chat_wizard,ccit_groups_config.group_service_controle_gestion,1,1,1,1
+access_ai_budget_chat_wizard_directeur_general,ai.budget.chat.wizard DG,model_ai_budget_chat_wizard,ccit_groups_config.group_directeur_general,1,1,1,1
+access_ai_budget_chat_wizard_financier,ai.budget.chat.wizard financier,model_ai_budget_chat_wizard,ccit_groups_config.group_financier,1,1,1,1
+access_ai_chat_history_user,ai.chat.history user,model_ai_chat_history,base.group_user,1,1,1,1

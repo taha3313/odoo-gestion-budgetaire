@@ -2,6 +2,7 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import date
 
+
 class ReportDepenseAnnuelleWizard(models.TransientModel):
     _name = 'report.depense.annuelle'
     _description = 'Dépenses Annuelles Wizard'
@@ -49,19 +50,40 @@ class ReportDepenseAnnuelleWizard(models.TransientModel):
                 total_real = sum(line.montant_realise or 0.0 for line in lines)
                 total_prev = sum(line.montant_prev or 0.0 for line in lines)
 
-                self.env['report.depense.annuelle.result'].create({
+                if abs(total_prev) > 0:
+                    pourcentage_realisation = (total_real / total_prev) * 100
+                    self.env['report.depense.annuelle.result'].create({
+                    'annee': str(year),
+                    'type_depense': dep_type,
+                    'montant_real': total_real,
+                    'montant_prev': total_prev,
+                    'pourcentage_realisation': pourcentage_realisation,
+                    'user_id': self.env.uid,
+                })
+                else:
+                    self.env['report.depense.annuelle.result'].create({
                     'annee': str(year),
                     'type_depense': dep_type,
                     'montant_real': total_real,
                     'montant_prev': total_prev,
                     'user_id': self.env.uid,
                 })
+                    
+
+
+                
+
+                # Create record
+
 
         return {
             'name': 'Rapport Dépenses Annuelles',
-            'view_mode': 'pivot,tree',
             'res_model': 'report.depense.annuelle.result',
             'type': 'ir.actions.act_window',
+            'views': [
+                (self.env.ref('om_account_budget.view_report_depense_annuelle_result_pivot').id, 'pivot'),
+                (self.env.ref('om_account_budget.view_report_depense_annuelle_result_tree').id, 'tree'),
+            ],
             'target': 'current',
             'domain': [('user_id', '=', self.env.uid)],
             'context': {'group_by': 'annee'},

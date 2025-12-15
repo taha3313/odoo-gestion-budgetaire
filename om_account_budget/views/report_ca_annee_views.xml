@@ -29,7 +29,7 @@
 
     <!-- Menu Items -->
     <menuitem id="menu_report_ca_annee" name="Chiffre d’Affaires Annuel"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_report_ca_annee_wizard" sequence="20"/>
 
     <!-- Tree View -->

@@ -28,8 +28,8 @@
     </record>
 
     <!-- Menu Items -->
-    <menuitem id="menu_report_depense_annuelle_root" name="Rapports Dépenses" parent="account.menu_finance" sequence="30"/>
-    <menuitem id="menu_report_depense_annuelle" name="Dépenses Annuelles" parent="menu_report_depense_annuelle_root" action="action_report_depense_annuelle_wizard" sequence="10"/>
+    <menuitem id="menu_report_depense_annuelle_root" name="Rapports Dépenses" parent="account.menu_finance" sequence="30" />
+    <menuitem id="menu_report_depense_annuelle" name="Dépenses Annuelles" parent="menu_budget_reports" action="action_report_depense_annuelle_wizard" sequence="10"/>
 
     <!-- Result Tree View -->
     <record id="view_report_depense_annuelle_result_tree" model="ir.ui.view">
@@ -50,13 +50,17 @@
         <field name="name">report.depense.annuelle.result.pivot</field>
         <field name="model">report.depense.annuelle.result</field>
         <field name="arch" type="xml">
-            <pivot string="Rapport Dépenses Annuelles" js_class="web_pivot_hide_total"  >
-                <field name="annee" type="row" />
-                <field name="type_depense" type="col" />
+            <pivot string="Rapport Dépenses Annuelles"
+                   js_class="web_pivot_hide_total">
+                <field name="annee" type="row"/>
+                <field name="type_depense" type="col"/>
                 <field name="montant_real" type="measure"/>
                 <field name="pourcentage_realisation" type="measure"/>
             </pivot>
         </field>
     </record>
+
+
+
 
 </odoo>

@@ -36,7 +36,7 @@
     <!-- Menu to open wizard -->
     <menuitem id="menu_report_autonomie"
               name="Rapport Autonomie"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_report_autonomie_wizard"
               sequence="20"/>
 
@@ -81,7 +81,7 @@
     <!-- Menu to open wizard -->
     <menuitem id="menu_report_autonomie2"
               name="Rapport Autonomie 2"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_report_autonomie_wizard_classic"
               sequence="20"/>
 

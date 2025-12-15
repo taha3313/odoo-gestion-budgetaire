@@ -2,3 +2,11 @@ from . import intent_processor
 from . import ai_budget_executor
 from . import ai_budget_response
 from . import ai_budget_chatbot
+from . import ai_chat_service
+from . import ai_budget_chat_wizard
+from . import ai_intent_validator
+from . import budget_query_engine
+from . import ai_ui_router
+from . import ai_wizard_runner
+from . import ai_report_runner
+from . import ai_chat_history

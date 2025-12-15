@@ -48,7 +48,7 @@
 
     <menuitem id="menu_bar_chart_budget_line"
               name="Evolution Budgétaire"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_bar_chart_budget_line_wizard"/>
 
     <!-- Graph view for Réalisé -->
@@ -91,6 +91,6 @@
 
     <menuitem id="menu_bar_chart_budget_realise"
               name="Evolution Réalisée"
-              parent="menu_report_depense_annuelle_root"
+              parent="menu_budget_reports"
               action="action_bar_chart_budget_realise_wizard"/>
 </odoo>

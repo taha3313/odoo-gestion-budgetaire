@@ -2,54 +2,65 @@ from odoo import models, api
 
 class BudgetResponseGenerator(models.AbstractModel):
     _name = "ai.budget.response"
-    _description = "Generate human-readable responses for budget queries"
+    _description = "Generate human-readable responses"
 
     @api.model
     def generate_response(self, instruction, data):
-        """
-        instruction: dict returned from Gemini (action, type, year, etc.)
-        data: dict or list returned from executor.execute
-        """
         action = instruction.get("action")
         budget_type = instruction.get("type", "any")
         year = instruction.get("year")
         year_compare = instruction.get("year_compare")
         limit = instruction.get("limit")
 
-        response_lines = []
+        r = []
 
-        # SUM action
         if action == "sum":
-            total_real = data.get("total_real")
-            total_prev = data.get("total_prev")
-            response_lines.append(
-                f"Budget type '{budget_type}' for year {year}:\n"
-                f" - Total Realized: {total_real}\n"
-                f" - Total Planned: {total_prev}"
-            )
+            r.append(f"📊 Dépenses '{budget_type}' pour {year} :")
+            r.append(f"- Montant prévu : {data.get('montant_prev', 0):,.2f}")
+            r.append(f"- Montant réalisé : {data.get('montant_real', 0):,.2f}")
+            pct = data.get("pourcentage_realisation")
+            if pct is not None:
+                r.append(f"- Taux de réalisation : {pct:.2f} %")
 
-        # LIST action
         elif action == "list":
-            response_lines.append(f"Listing budget lines for type '{budget_type}' in year {year}:")
-            for line in data:
-                response_lines.append(f" - {line['name']}: Real={line['montant_real']}, Planned={line['montant_prev']}")
+            r.append(f"📋 Lignes budgétaires '{budget_type}' pour {year} :")
+            for l in data.get("lines", []):
+                r.append(
+                    f"- {l.get('position_budgetaire') or 'Non défini'} "
+                    f"(Budget: {l.get('budget')}): "
+                    f"Prévu={l.get('montant_prev', 0):,.2f}, "
+                    f"Réalisé={l.get('montant_realise', 0):,.2f}"
+                )
 
-        # COMPARE action
         elif action == "compare":
-            response_lines.append(
-                f"Comparison for budget type '{budget_type}':\n"
-                f"Year {year} vs Year {year_compare}"
+            r.append(
+                f"📈 Comparaison '{budget_type}' {year} vs {year_compare}:"
             )
-            for key, value in data.items():
-                response_lines.append(f" - {key}: {value}")
+            r.append(
+                f"- {year}: "
+                f"Prévu={data.get('montant_prev_1', 0):,.2f}, "
+                f"Réalisé={data.get('montant_real_1', 0):,.2f}"
+            )
+            r.append(
+                f"- {year_compare}: "
+                f"Prévu={data.get('montant_prev_2', 0):,.2f}, "
+                f"Réalisé={data.get('montant_real_2', 0):,.2f}"
+            )
 
-        # TOP action
         elif action == "top":
-            response_lines.append(f"Top {limit} budget lines for '{budget_type}' in year {year}:")
-            for i, line in enumerate(data[:limit], 1):
-                response_lines.append(f"{i}. {line['name']}: Real={line['montant_real']}, Planned={line['montant_prev']}")
+            r.append(
+                f"🏆 Top {limit or len(data.get('top_lines', []))} "
+                f"postes '{budget_type}' pour {year}:"
+            )
+            for i, l in enumerate(data.get("top_lines", []), 1):
+                r.append(
+                    f"{i}. {l.get('position_budgetaire') or 'Non défini'} "
+                    f"(Budget: {l.get('budget')}): "
+                    f"Prévu={l.get('montant_prev', 0):,.2f}, "
+                    f"Réalisé={l.get('montant_realise', 0):,.2f}"
+                )
 
         else:
-            response_lines.append("No valid action returned from Gemini.")
+            r.append("Action non supportée.")
 
-        return "\n".join(response_lines)
+        return "\n".join(r)

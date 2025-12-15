@@ -18,7 +18,6 @@ class AccountBudgetPost(models.Model):
         domain=[('deprecated', '=', False)])
     company_id = fields.Many2one('res.company', 'Société', required=True,
                                  default=lambda self: self.env.company)
-    
 
 
     categorie_id = fields.Many2one(
@@ -42,7 +41,7 @@ class AccountBudgetPost(models.Model):
         self._check_account_ids(vals)
         return super(AccountBudgetPost, self).create(vals)
 
-    
+
     def write(self, vals):
         self._check_account_ids(vals)
         return super(AccountBudgetPost, self).write(vals)
@@ -64,7 +63,7 @@ class CrossoveredBudget(models.Model):
         ('validate', 'Validé'),
         ('refuse_daf', 'Refuser'),
         ('to_pdg', 'En attente de validation du PDG'),
-        ('refuse_pdg', 'Refuser'),
+        ('refuse_pdg', 'Refusé'),
         ('cancel', 'Annulé'),
         ('done', 'Validé')
         ], 'Status', default='draft', index=True, readonly=True, copy=False, track_visibility='always')
@@ -119,7 +118,7 @@ class CrossoveredBudget(models.Model):
                           notification_ids=notification_ids)
 
     def action_budget_refuser_daf (self):
-        self.write({'state': 'refuse_daf'})
+        self.write({'state': 'draft'})
         ###################################### odoo notif ###################################
         group_id = self.env.ref('ccit_groups_config.group_resp_controle_gestion')
         user_obj = self.env['res.users'].search([('groups_id', '=', group_id.id)])
@@ -128,7 +127,7 @@ class CrossoveredBudget(models.Model):
             notification_ids.append((0, 0, {
                 'res_partner_id': rec.partner_id.id,
                 'notification_type': 'inbox'}))
-        self.message_post(body="Le budget portant le nom de: " + self.name + "a été refusé par le DAF",
+        self.message_post(body="Le budget portant le nom de: " + self.name + "a été révisé par le DAF",
                           message_type='notification',
                           subtype='mail.mt_comment', author_id=self.env.user.partner_id.id,
                           notification_ids=notification_ids)
@@ -509,14 +508,13 @@ class CrossoveredBudgetLines(models.Model):
                 line.realisation = line.percentage
 
 ########################################################################################################################
-    # @api.depends( 'date_from', 'date_to')
     def _compute_pourcentage_engagement(self):
         for rec in self:
             if rec.theoritical_amount != 0.00:
                 rec.pourcentage_engagement = float((rec.montant_engaged or 0.0) / rec.planned_amount)
                 rec.engagement = rec.pourcentage_engagement
             else:
-                rec.pourcentage_engagement = 0.00
+                rec.pourcentage_engagement = 0.0
                 rec.engagement = rec.pourcentage_engagement
 
 

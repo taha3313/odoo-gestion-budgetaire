@@ -104,3 +104,6 @@ access_report_autonomie_wizard_classic_user,report.autonomie.wizard.classic user
 access_report_autonomie_wizard_classic_controle_gestion,report.autonomie.wizard.classic CG,model_report_autonomie_wizard_classic,ccit_groups_config.group_service_controle_gestion,1,1,1,1
 access_report_autonomie_wizard_classic_directeur_general,report.autonomie.wizard.classic DG,model_report_autonomie_wizard_classic,ccit_groups_config.group_directeur_general,1,1,1,1
 access_report_autonomie_wizard_classic_financier,report.autonomie.wizard.classic financier,model_report_autonomie_wizard_classic,ccit_groups_config.group_financier,1,1,1,1
+
+
+access_categorie_position_lines,categorie.position.lines ,model_categorie_position_lines,base.group_user,1,1,1,1

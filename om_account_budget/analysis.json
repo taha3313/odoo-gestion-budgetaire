@@ -1,0 +1,255 @@
+
+{
+  "models": [
+    {
+      "name": "account.budget.post",
+      "type": "normal",
+      "description": "Budgetary Position",
+      "fields": [
+        {"name": "name", "type": "Char", "required": true},
+        {"name": "account_ids", "type": "Many2many", "relation": "account.account"},
+        {"name": "company_id", "type": "Many2one", "relation": "res.company", "required": true, "default": "lambda self: self.env.company"},
+        {"name": "categorie_id", "type": "Many2one", "relation": "position.budgetaire.categorie", "required": true}
+      ],
+      "methods": [
+        {"name": "_check_account_ids", "description": "Validation method to ensure account_ids is not empty."},
+        {"name": "create", "description": "Overrides create to call _check_account_ids."},
+        {"name": "write", "description": "Overrides write to call _check_account_ids."}
+      ],
+      "views": [
+        {"type": "search", "id": "view_budget_post_search", "fields": ["name", "company_id"]},
+        {"type": "tree", "id": "view_budget_post_tree", "fields": ["name", "company_id"]},
+        {"type": "form", "id": "view_budget_post_form", "fields": ["name", "company_id", "categorie_id", "account_ids"]}
+      ]
+    },
+    {
+      "name": "crossovered.budget",
+      "type": "normal",
+      "description": "Budget",
+      "fields": [
+        {"name": "name", "type": "Char", "required": true},
+        {"name": "user_id", "type": "Many2one", "relation": "res.users", "default": "lambda self: self.env.user"},
+        {"name": "date_from", "type": "Date", "required": true},
+        {"name": "date_to", "type": "Date", "required": true},
+        {"name": "state", "type": "Selection"},
+        {"name": "crossovered_budget_line", "type": "One2many", "relation": "crossovered.budget.lines"},
+        {"name": "company_id", "type": "Many2one", "relation": "res.company", "required": true, "default": "lambda self: self.env.company"},
+        {"name": "type_budget", "type": "Selection"},
+        {"name": "commentaire_daf", "type": "Text"},
+        {"name": "commentaire_pdg", "type": "Text"},
+        {"name": "date_commission", "type": "Date"},
+        {"name": "pv_comission", "type": "Binary"}
+      ],
+      "methods": [
+        {"name": "action_budget_confirm", "description": "Sets budget state to 'confirm'."},
+        {"name": "action_soumettre_daf", "description": "Sets budget state to 'to_daf'."},
+        {"name": "action_budget_draft", "description": "Sets budget state to 'draft'."},
+        {"name": "action_budget_validate", "description": "Sets budget state to 'validate'."},
+        {"name": "action_budget_refuser_daf", "description": "Sets budget state to 'draft' after refusal."},
+        {"name": "action_budget_refuser_pdg", "description": "Sets budget state to 'refuse_pdg'."},
+        {"name": "action_budget_cancel", "description": "Sets budget state to 'cancel'."},
+        {"name": "action_set_to_draft", "description": "Sets budget state to 'draft'."},
+        {"name": "action_soumettre_pdg", "description": "Sets budget state to 'to_pdg'."},
+        {"name": "action_budget_done", "description": "Sets budget state to 'done'."},
+        {"name": "unlink", "description": "Overrides unlink to add a constraint on state."}
+      ],
+      "views": [
+        {"type": "form", "id": "crossovered_budget_view_form"},
+        {"type": "tree", "id": "crossovered_budget_view_tree"},
+        {"type": "kanban", "id": "view_crossovered_budget_kanban"},
+        {"type": "search", "id": "view_crossovered_budget_search"}
+      ]
+    },
+    {
+      "name": "crossovered.budget.lines",
+      "type": "normal",
+      "description": "Budget Line",
+       "fields": [
+        {"name": "name", "type": "Char", "compute": "_compute_line_name"},
+        {"name": "crossovered_budget_id", "type": "Many2one", "relation": "crossovered.budget", "required": true},
+        {"name": "analytic_account_id", "type": "Many2one", "relation": "account.analytic.account"},
+        {"name": "general_budget_id", "type": "Many2one", "relation": "account.budget.post"},
+        {"name": "date_from", "type": "Date", "required": true},
+        {"name": "date_to", "type": "Date", "required": true},
+        {"name": "planned_amount", "type": "Monetary", "required": true},
+        {"name": "practical_amount", "type": "Monetary", "compute": "_compute_practical_amount"},
+        {"name": "theoritical_amount", "type": "Monetary", "compute": "_compute_theoritical_amount"},
+        {"name": "percentage", "type": "Float", "compute": "_compute_percentage"}
+      ],
+      "methods": [],
+      "views": [
+        {"type": "tree", "id": "view_crossovered_budget_line_tree"},
+        {"type": "form", "id": "view_crossovered_budget_line_form"},
+        {"type": "pivot", "id": "view_crossovered_budget_line_pivot"},
+        {"type": "graph", "id": "view_crossovered_budget_line_graph"},
+        {"type": "search", "id": "view_crossovered_budget_line_search"}
+      ]
+    },
+    {
+      "name": "report.depense.annuelle",
+      "type": "transient",
+      "description": "Wizard for Annual Expense Report",
+      "fields": [
+        {"name": "start_year", "type": "Selection", "required": true},
+        {"name": "end_year", "type": "Selection", "required": true}
+      ],
+      "logic": "Generates a pivot and tree view of annual expenses by type (fonctionnement, investissement, dette) for a given year range. It calculates the actual and planned amounts and the realization percentage. The results are stored in 'report.depense.annuelle.result'.",
+      "methods": [{"name": "generate_report"}],
+      "views": [
+        {"type": "form", "id": "view_report_depense_annuelle_wizard_form", "fields": ["start_year", "end_year"]}
+      ]
+    },
+    {
+      "name": "report.depense.annuelle.result",
+      "type": "normal",
+      "description": "Result model for Annual Expense Report",
+      "fields": [
+        {"name": "annee", "type": "Char"},
+        {"name": "type_depense", "type": "Selection"},
+        {"name": "montant_real", "type": "Float"},
+        {"name": "montant_prev", "type": "Float"},
+        {"name": "pourcentage_realisation", "type": "Float"}
+      ],
+      "methods": [],
+      "views": [
+        {"type": "tree", "id": "view_report_depense_annuelle_result_tree"},
+        {"type": "pivot", "id": "view_report_depense_annuelle_result_pivot"}
+      ]
+    },
+    {
+        "name": "report.position.budgetaire",
+        "type": "transient",
+        "description": "Wizard for budgetary position report.",
+        "fields": [
+            {"name": "start_year", "type": "Selection", "required": true},
+            {"name": "end_year", "type": "Selection", "required": true},
+            {"name": "select_all", "type": "Boolean"},
+            {"name": "positions_budgetaires_ids", "type": "Many2many", "relation": "account.budget.post"}
+        ],
+        "logic": "Generates a report on budgetary positions for a specified year range, comparing realized vs. planned amounts. Results are stored in 'report.position.budgetaire.result'.",
+        "methods": [{"name": "generate_report"}],
+        "views": [{"type": "form", "id": "view_report_position_budgetaire_wizard_form"}]
+    },
+    {
+        "name": "report.position.budgetaire.result",
+        "type": "normal",
+        "description": "Result model for budgetary position report.",
+        "fields": [
+            {"name": "annee", "type": "Char"},
+            {"name": "position_budgetaire", "type": "Many2one", "relation": "account.budget.post"},
+            {"name": "montant_real", "type": "Float"},
+            {"name": "montant_prev", "type": "Float"},
+            {"name": "pourcentage_realisation", "type": "Float"}
+        ],
+        "methods": [],
+        "views": [
+            {"type": "tree", "id": "view_report_position_budgetaire_result_tree"},
+            {"type": "pivot", "id": "view_report_position_budgetaire_pivot"}
+        ]
+    },
+    {
+        "name": "report.chiffre.affaire.wizard",
+        "type": "transient",
+        "description": "Wizard to generate the turnover report.",
+        "fields": [{"name": "year", "type": "Selection", "required": true}],
+        "logic": "Triggers the generation of turnover report lines for the selected year.",
+        "methods": [{"name": "action_generate"}],
+        "views": [{"type": "form", "id": "view_report_chiffre_affaire_wizard_form"}]
+    },
+    {
+        "name": "report.chiffre.affaire",
+        "type": "normal",
+        "description": "Turnover Report",
+        "fields": [
+            {"name": "position_budgetaire", "type": "Many2one", "relation": "account.budget.post"},
+            {"name": "montant_facture", "type": "Float"},
+            {"name": "montant_prev", "type": "Float"},
+            {"name": "montant_encaisse", "type": "Float"},
+            {"name": "montant_realise_pred", "type": "Float"},
+            {"name": "pourcentage_evolution", "type": "Float", "compute": "_compute_pourcentages"},
+            {"name": "pourcentage_encaisse_prev", "type": "Float", "compute": "_compute_pourcentages"},
+            {"name": "pourcentage_encaisse_facture", "type": "Float", "compute": "_compute_pourcentages"}
+        ],
+        "methods": [{"name": "generate_lines"}],
+        "views": [
+            {"type": "tree", "id": "view_report_chiffre_affaire_tree"},
+            {"type": "pivot", "id": "view_report_chiffre_affaire_pivot"}
+        ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "open_budget_post_form",
+      "name": "Positions budgétaires",
+      "res_model": "account.budget.post",
+      "view_mode": "tree,kanban,form"
+    },
+    {
+      "id": "act_crossovered_budget_view",
+      "name": "Budgets",
+      "res_model": "crossovered.budget",
+      "view_mode": "tree,kanban,form"
+    },
+    {
+      "id": "act_crossovered_budget_lines_view",
+      "name": "Analyse budgétaire",
+      "res_model": "crossovered.budget.lines",
+      "view_mode": "tree,form,pivot,graph"
+    },
+    {
+      "id": "action_report_depense_annuelle_wizard",
+      "name": "Dépenses Annuelles",
+      "res_model": "report.depense.annuelle",
+      "view_mode": "form",
+      "target": "new"
+    }
+  ],
+  "menus": [
+    {
+      "id": "menu_budget_managment",
+      "name": "Gestion budgétaire",
+      "parent": "account.menu_finance"
+    },
+    {
+      "id": "menu_budgets",
+      "name": "Gestion des budgets",
+      "parent": "menu_budget_managment",
+      "action": "act_crossovered_budget_view"
+    },
+    {
+      "id": "menu_budget_managment_post_form",
+      "name": "Positions budgétaires",
+      "parent": "menu_budget_managment",
+      "action": "open_budget_post_form"
+    },
+    {
+        "id": "menu_act_crossovered_budget_lines_view",
+        "name": "Analyse budgétaire",
+        "parent": "menu_budget_managment",
+        "action": "act_crossovered_budget_lines_view"
+    },
+    {
+      "id": "menu_budget_reports",
+      "name": "Rapports de suivi",
+      "parent": "menu_budget_managment"
+    },
+    {
+      "id": "menu_report_depense_annuelle",
+      "name": "Dépenses Annuelles",
+      "parent": "menu_budget_reports",
+      "action": "action_report_depense_annuelle_wizard"
+    },
+     {
+      "id": "menu_report_position_budgetaire",
+      "name": "Rapport Postions Budgétaires",
+      "parent": "menu_budget_reports",
+      "action": "action_report_position_budgetaire_wizard"
+    },
+    {
+        "id": "menu_report_chiffre_affaire_wizard",
+        "name": "Rapport Chiffre d'Affaire",
+        "parent": "menu_budget_reports",
+        "action": "action_report_chiffre_affaire_wizard"
+    }
+  ]
+}

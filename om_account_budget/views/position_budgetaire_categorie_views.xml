@@ -23,11 +23,11 @@
 
                     <notebook>
                         <page string="Positions Budgétaires">
-                            <field name="position_ids">
-                                <tree editable="bottom">
-                                    <field name="name"/>
+                              <field name="categorie_position_line">
+                                <tree string="Lignes de categorie"  editable="bottom">
+                                    <field name="general_budget_id"/>
                                 </tree>
-                            </field>
+                              </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -40,6 +40,7 @@
         <field name="res_model">position.budgetaire.categorie</field>
         <field name="view_mode">tree,form</field>
     </record>
+
 
     <menuitem id="menu_position_budgetaire_root"
               name="Catégories Budgétaires"
