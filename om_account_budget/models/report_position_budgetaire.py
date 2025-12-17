@@ -67,7 +67,7 @@ class ReportPositionBudgetaireWizard(models.TransientModel):
                     ('date_from', '<=', date_to),
                     ('date_to', '>=', date_from),
                     ('general_budget_id', '=', position_id),
-                    ('crossovered_budget_id.state', '=', 'done'),
+                    # ('crossovered_budget_id.state', '=', 'done'),
                 ]
                 lines = BudgetLine.search(domain)
 
